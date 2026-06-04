@@ -1,0 +1,11 @@
+./sys
+./proc
+./dev
+./root/*
+./root/.*
+./home/*
+./tmp/*
+./var/tmp/*
+./run/*
+./var/log/*
+./var/cache/*

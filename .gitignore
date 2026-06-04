@@ -1,0 +1,8 @@
+work/
+out/
+*.wsl
+*.sqf
+*.tar
+*.tar.gz
+*.tar.xz
+*.sha256
