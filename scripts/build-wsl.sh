@@ -129,6 +129,13 @@ EOF
 fi
 as_root chmod 0644 "$ROOTFS/etc/wsl-distribution.conf"
 
+# T2 hardcode PATH
+info "patching /etc/profile"
+as_root sed -i \
+    -e '1i __wslpath="$PATH"' \
+    -e 's#^export PATH$#[ -n "$WSL_DISTRO_NAME" ] \&\& PATH="$PATH:$__wslpath"\nexport PATH#' \
+    "$ROOTFS/etc/profile"
+
 OUT="${OUTPUT:-$REPO_DIR/out/$NAME.wsl}"
 mkdir -p "$(dirname "$OUT")"
 info "packing $OUT"
