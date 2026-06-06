@@ -86,6 +86,12 @@ as_root rm -f  "$ROOTFS/etc/resolv.conf" "$ROOTFS/etc/hostname" "$ROOTFS/etc/mac
 as_root rm -rf "$ROOTFS/boot" "$ROOTFS/lib/modules" "$ROOTFS/lib/firmware"
 grep -q "^root:.*:0:0:" "$ROOTFS/etc/passwd" || die "no uid 0 root in /etc/passwd"
 
+for s in "$ROOTFS"/etc/postinstall.d/*; do
+    [ -e "$s" ] || continue
+    info "postinstall: ${s##*/}"
+    as_root chroot "$ROOTFS" /bin/sh "/etc/postinstall.d/${s##*/}" || true
+done
+
 info "installing WSL configuration"
 as_root install -d -m 0755 "$ROOTFS/usr/lib/wsl"
 as_root install -m 0644 "$DISTRO_DIR/wsl.conf"              "$ROOTFS/etc/wsl.conf"
