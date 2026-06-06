@@ -135,6 +135,9 @@ EOF
 fi
 as_root chmod 0644 "$ROOTFS/etc/wsl-distribution.conf"
 
+info "adding /usr/lib/wsl/lib to ld.so.conf"
+printf '\n# WSL runtime GPU/CUDA libraries\n/usr/lib/wsl/lib\n' | as_root tee -a "$ROOTFS/etc/ld.so.conf" >/dev/null
+
 # T2 hardcode PATH
 info "patching /etc/profile"
 as_root sed -i \
